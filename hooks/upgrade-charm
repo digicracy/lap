@@ -1,0 +1,20 @@
+#!/bin/sh
+
+
+#create directories to store mysql configuration
+mkdir -p config
+mkdir -p /var/webconfig
+cp ./lib/* /var/webconfig
+hown -R www-data:www-data /var/www/*
+
+juju-log "Installing packages"
+apt-get install -y apache2 php5 mysql-client php5-mysql php5-mcrypt ttf-dejavu-core ucf debconf-utils
+
+# Configure apache
+juju-log "Enabling apache modules: rewrite, vhost_alias, php5"
+a2enmod rewrite vhost_alias php5
+
+#copy php files to directory
+cp ./website/* /var/www
+chown -R www-data:www-data /var/www
+

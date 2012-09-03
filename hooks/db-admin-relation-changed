@@ -1,0 +1,42 @@
+#!/bin/sh
+
+#set -ux
+
+user=`relation-get user`
+password=`relation-get password`
+host=`relation-get private-address`
+database=`config-get website-database`
+if [ -z "$host" ] || [ -z "$user" ]; then
+	juju-log "Waiting for complete setup"
+	exit 0
+fi
+
+# Build config file to hold configuration options
+
+juju-log "Building config file for $host"
+cat > "config/$host" <<EOF
+#!/bin/sh
+
+server_name=${JUJU_REMOTE_UNIT%%/*}
+server_user=${user}
+server_pass=${password}
+server_db=${database}
+EOF
+#
+
+cat > "config/mysql" <<EOF
+server_ip=${host}
+EOF
+#
+
+juju-log "Building $database database on $host"
+
+mysqladmin -h $host -u $user --password=$password create "$database"
+#mysql -h $host -u $user --password=$password $database < $CREATE_SQL_FILE
+
+
+cp ./config/* /var/webconfig
+
+juju-log "Exposing apache2 service"
+open-port 80/tcp
+

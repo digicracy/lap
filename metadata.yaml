@@ -1,0 +1,18 @@
+name: lamp
+summary: "set up an apache server with php and supports a connection to mysql"
+description: |
+ Provides a working webserver 
+ - Runtime: 
+  - PHP
+ - MySQL:
+  - /var/webconfig/mysql contains the ip of the latest mysql server to use
+  - /var/webconfig/{ip} contains the details to be able to connect to the db
+  - /var/webconfig/opendb.php opens a connection to the db
+ -Options:
+  - website-database - name of db, by default "mydatabase"
+  - website-location - currently defaults to copying for website folder in charm
+
+  
+requires:
+ db-admin:
+    interface: mysql-root
