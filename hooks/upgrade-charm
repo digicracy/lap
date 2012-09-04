@@ -2,7 +2,6 @@
 
 
 #create directories to store mysql configuration
-mkdir -p config
 mkdir -p /var/webconfig
 cp ./lib/* /var/webconfig
 hown -R www-data:www-data /var/www/*

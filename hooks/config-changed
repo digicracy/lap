@@ -1,0 +1,13 @@
+#!/bin/sh
+
+
+BZR_BRANCH=`config-get website-bzr`
+
+if [ ! -z "$BZR_BRANCH" ]; then
+	rmdir website
+	bzr branch $BZR_BRANCH website
+	cp website/mysql_conf config
+	cp website/* /var/www/ -r
+	
+fi
+

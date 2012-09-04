@@ -1,0 +1,2 @@
+create table mytodo (mytodo_id int(64) KEY AUTO_INCREMENT, mytodo varchar(80), starred int(2));
+INSERT INTO `android_todo`.`mytodo` (`mytodo_id`, `mytodo`, `starred`) VALUES (NULL, 'hello this is a sample', '1'), (NULL, 'yes it works!', '0');

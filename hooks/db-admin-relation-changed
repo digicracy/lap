@@ -32,7 +32,7 @@ EOF
 juju-log "Building $database database on $host"
 
 mysqladmin -h $host -u $user --password=$password create "$database"
-#mysql -h $host -u $user --password=$password $database < $CREATE_SQL_FILE
+mysql -h $host -u $user --password=$password $database < ./config/mysql_conf
 
 
 cp ./config/* /var/webconfig
