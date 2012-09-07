@@ -2,12 +2,41 @@
 
 
 BZR_BRANCH=`config-get website-bzr`
+BZR_PULL=`config-get bzr-update`
 
-if [ ! -z "$BZR_BRANCH" ]; then
-	rmdir website
+bzr_config="config/bar"
+
+if [ ! -z "$BZR_BRANCH" ] && [ -f "$bzr_config" ]; then
+        read bzr_current< $bzr_config
+        juju-log "current config is $bzr_current"
+        if [ $BZR_BRANCH = $bzr_current ]; then
+		if [ ! -z "$BZR_PULL" ]; then	
+			juju-log "pulling latest version of $bzr_current"
+                	cd website 
+			bzr pull
+			cd ..
+			cp website/mysql_conf config
+		        cp website/* /var/www/ -r
+		fi 
+        else
+		juju-log " $bzr_current and $BZR_branch are not the same"
+                rm $bzr_config
+        fi
+         
+fi
+
+
+if [ ! -z "$BZR_BRANCH" ] && [ ! -f "$bzr_config" ]; then
+	#fisrt time that bzr config is set
+	juju-log " $bzr_config file not found"
+	rm -r website
 	bzr branch $BZR_BRANCH website
 	cp website/mysql_conf config
 	cp website/* /var/www/ -r
+        echo "$BZR_BRANCH" > $bzr_config
+	juju-log " adding $BZR_BRANCH to $bzr_config file" 
+	exit 0
 	
 fi
+
 

@@ -7,4 +7,10 @@ options:
     type: string
     default: ""
     description: describes is the website is on a bzr branch
+  
+  bzr-update:
+    type: string
+    default: ""
+    description: describes is the website is on a bzr branch needs to be pulled
+
 
