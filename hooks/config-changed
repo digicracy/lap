@@ -4,7 +4,7 @@
 BZR_BRANCH=`config-get website-bzr`
 BZR_PULL=`config-get bzr-update`
 
-bzr_config="config/bar"
+bzr_config="config/bzr"
 
 if [ ! -z "$BZR_BRANCH" ] && [ -f "$bzr_config" ]; then
         read bzr_current< $bzr_config
