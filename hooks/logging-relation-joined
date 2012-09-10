@@ -1,0 +1,2 @@
+#!/bin/sh
+relation-set webpath="/var/www/" hostname=`hostname -f`

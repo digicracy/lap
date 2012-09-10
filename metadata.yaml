@@ -14,3 +14,8 @@ description: |
 requires:
  db-admin:
     interface: mysql-root
+provides:
+  website:
+    interface: http
+  logging:
+      interface: logging-directory

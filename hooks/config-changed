@@ -7,18 +7,24 @@ BZR_PULL=`config-get bzr-update`
 bzr_config="config/bzr"
 
 if [ ! -z "$BZR_BRANCH" ] && [ -f "$bzr_config" ]; then
+# first we check if a bzr branch has been set up already  
         read bzr_current< $bzr_config
         juju-log "current config is $bzr_current"
         if [ $BZR_BRANCH = $bzr_current ]; then
-		if [ ! -z "$BZR_PULL" ]; then	
+	#if it has then we check if it is the same and we need to pull a new version 
+		if [ ! -z "$BZR_PULL" ]; then
+		#is the pull flag set up? juju set lamp bzr-update="yes"	
 			juju-log "pulling latest version of $bzr_current"
                 	cd website 
 			bzr pull
 			cd ..
 			cp website/mysql_conf config
 		        cp website/* /var/www/ -r
+			chown -R www-data:www-data /var/www
+
 		fi 
         else
+		#if the bzr set has change we delete the congig file and let the next statement set up the branch
 		juju-log " $bzr_current and $BZR_branch are not the same"
                 rm $bzr_config
         fi
