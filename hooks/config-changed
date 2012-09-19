@@ -39,6 +39,7 @@ if [ ! -z "$BZR_BRANCH" ] && [ ! -f "$bzr_config" ]; then
 	bzr branch $BZR_BRANCH website
 	cp website/mysql_conf config
 	cp website/* /var/www/ -r
+        chown -R www-data:www-data /var/www
         echo "$BZR_BRANCH" > $bzr_config
 	juju-log " adding $BZR_BRANCH to $bzr_config file" 
 	exit 0

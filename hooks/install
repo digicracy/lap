@@ -4,7 +4,7 @@
 #create directories to store mysql configuration
 mkdir -p /var/webconfig
 cp ./lib/* /var/webconfig
-hown -R www-data:www-data /var/www/*
+hown -R www-data:www-data /var/webconfig
 
 juju-log "Installing packages"
 apt-get install -y apache2 php5 mysql-client php5-mysql php5-mcrypt ttf-dejavu-core ucf debconf-utils
