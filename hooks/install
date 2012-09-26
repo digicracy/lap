@@ -12,7 +12,7 @@ apt-get install -y apache2 php5 mysql-client php5-mysql php5-mcrypt ttf-dejavu-c
 # Configure apache
 juju-log "Enabling apache modules: rewrite, vhost_alias, php5"
 a2enmod rewrite vhost_alias php5
-sudo service apache2 restart
+service apache2 restart
 
 #copy php files to directory
 cp ./website/* /var/www
