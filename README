@@ -1,1 +1,14 @@
 
+# Overview
+The first thing the LAMP charm does is to install and configure a new instance with Apache and PHP5. The charm will then copy any files under /website  inside the charm folder structure, into /var/www. 
+
+It also allows you to specify a Bazaar branch. It will clone the branch into the webserver and copy the contents to /var/www. As an example set:
+juju set lamp website-bzr="lp:~vtuson/+junk/mytodo_web"
+
+You can set up a relationship with a Mysql service. A Mysql database is created by default at this time. You can change the name of the database as a configuration options.
+
+juju set lamp website-database="your_db_name"
+
+If you provide a file called mysql_config either on the /website folder or in the root of you Bazaar branch, this will be used to configure further the Mysql database.
+
+The charm will store the details of the relationship in /var/webconfig. In there you can also find opendb.php, a basic script that will open the connection to the MySQL database for you.

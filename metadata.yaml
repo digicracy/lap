@@ -1,5 +1,6 @@
 name: lamp
 summary: "set up an apache server with php and supports a connection to mysql"
+maintainer: Victor Palau <vtuson@ubuntu.com>
 description: |
  Provides a working webserver 
  - Runtime: 
