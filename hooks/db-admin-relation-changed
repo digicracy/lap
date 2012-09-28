@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#set -ux
-
 user=`relation-get user`
 password=`relation-get password`
 host=`relation-get private-address`
@@ -12,7 +10,6 @@ if [ -z "$host" ] || [ -z "$user" ]; then
 fi
 
 # Build config file to hold configuration options
-
 juju-log "Building config file for $host"
 cat > "config/$host" <<EOF
 #!/bin/sh
@@ -23,20 +20,20 @@ server_pass=${password}
 server_db=${database}
 EOF
 #
-
+#creating file pointing to last configuration 
 cat > "config/mysql" <<EOF
 server_ip=${host}
 EOF
 #
 
+#building the database
 juju-log "Building $database database on $host"
-
 mysqladmin -h $host -u $user --password=$password create "$database"
 mysql -h $host -u $user --password=$password $database < ./config/mysql_conf
 
-
+#setting up configuration files to be accessible by apache process
 cp ./config/* /var/webconfig
-
-juju-log "Exposing apache2 service"
-open-port 80/tcp
-
+chown -R www-data:www-data ./config
+chown -R www-data:www-data /var/webconfig
+chmod 640 ./config/*
+chmod 640 /var/webconfig/*
