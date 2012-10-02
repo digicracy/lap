@@ -1,22 +1,26 @@
 #!/bin/sh
 
-#create directories to store mysql configuration
-mkdir -p /var/webconfig
-cp ./lib/* /var/webconfig
-chown -R www-data:www-data /var/webconfig
-juju-log "Installing packages"
-apt-get install -y apache2 php5 mysql-client php5-mysql php5-mcrypt ttf-dejavu-core ucf debconf-utils
+BZR_BRANCH=`config-get website-bzr`
+juju-log "updating packages"
+apt-get update -y
 
-# Configure apache
-juju-log "Enabling apache modules: rewrite, vhost_alias, php5"
-a2enmod rewrite vhost_alias php5
+#restart apache
+service apache2 restart
 
 #copy php files to directory
 if ls ./website/* > /dev/null 2>&1; then
-  cp -r ./website/* /var/www
-  chown -R www-data:www-data /var/www
+ cp -r ./website/* /var/www
+ chown -R www-data:www-data /var/www
 fi
 
-#opening port 80
-juju-log "Exposing apache2 service"
-open-port 80/tcp
+#update bzr branch 
+if [ ! -z "$BZR_BRANCH" ]; then
+ juju-log "pulling latest version of $bzr_current"
+ cd website 
+ bzr pull
+ cd ..
+ cp website/mysql_conf config
+ cp website/* /var/www/ -r
+ chown -R www-data:www-data /var/www
+fi
+

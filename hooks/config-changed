@@ -1,47 +1,41 @@
 #!/bin/sh
 
-
 BZR_BRANCH=`config-get website-bzr`
 BZR_PULL=`config-get bzr-update`
-
 bzr_config="config/bzr"
 
 if [ ! -z "$BZR_BRANCH" ] && [ -f "$bzr_config" ]; then
 # first we check if a bzr branch has been set up already  
-        read bzr_current< $bzr_config
-        juju-log "current config is $bzr_current"
-        if [ $BZR_BRANCH = $bzr_current ]; then
-	#if it has then we check if it is the same and we need to pull a new version 
-		if [ ! -z "$BZR_PULL" ]; then
-		#is the pull flag set up? juju set lamp bzr-update="yes"	
-			juju-log "pulling latest version of $bzr_current"
-                	cd website 
-			bzr pull
-			cd ..
-			cp website/mysql_conf config
-		        cp website/* /var/www/ -r
-			chown -R www-data:www-data /var/www
-
-		fi 
-        else
-		#if the bzr set has change we delete the congig file and let the next statement set up the branch
-		juju-log " $bzr_current and $BZR_branch are not the same"
-                rm $bzr_config
-        fi
-         
+ read bzr_current< $bzr_config
+ juju-log "current config is $bzr_current"
+ if [ $BZR_BRANCH = $bzr_current ]; then
+  #if it has then we check if it is the same and we need to pull a new version 
+  if [ ! -z "$BZR_PULL" ]; then
+  #is the pull flag set up? juju set lamp bzr-update="yes"	
+   juju-log "pulling latest version of $bzr_current"
+   cd website
+   bzr pull
+   cd ..
+   cp website/mysql_conf config
+   cp website/* /var/www/ -r
+   chown -R www-data:www-data /var/www
+  fi 
+ else
+  #if the bzr set has change we delete the congig file and let the next statement set up the branch
+  juju-log " $bzr_current and $BZR_branch are not the same"
+  rm $bzr_config
+ fi       
 fi
 
-
+#if bzr branch is defined but there is no config file present
 if [ ! -z "$BZR_BRANCH" ] && [ ! -f "$bzr_config" ]; then
-	#fisrt time that bzr config is set
-	juju-log " $bzr_config file not found"
-	rm -r website
-	bzr branch $BZR_BRANCH website
-	cp website/mysql_conf config
-	cp website/* /var/www/ -r
-        chown -R www-data:www-data /var/www
-        echo "$BZR_BRANCH" > $bzr_config
-	juju-log " adding $BZR_BRANCH to $bzr_config file" 
-	exit 0
-	
+ #fisrt time that bzr config is set
+ juju-log " $bzr_config file not found"
+ rm -r website
+ bzr branch $BZR_BRANCH website
+ cp website/mysql_conf config
+ cp website/* /var/www/ -r
+ chown -R www-data:www-data /var/www
+ echo "$BZR_BRANCH" > $bzr_config
+ juju-log " adding $BZR_BRANCH to $bzr_config file" 
 fi
