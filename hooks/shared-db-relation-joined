@@ -1,0 +1,9 @@
+#!/bin/sh
+
+juju-log "lamp - shared-db: Relation Joined"
+#set database and user name
+myuser=`config-get database-user`
+mydatabase=`config-get website-database`
+myaddress=`unit-get private-address`
+relation-set username=$myuser hostname=$myaddress database=$mydatabase
+

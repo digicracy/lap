@@ -3,11 +3,14 @@ options:
     type: string
     default: "mydatabase"
     description: The name of the database to use, if it does not exist it will be created
+  database-user:
+    type: string
+    default: "juju-user"
+    description: this is the user name to access the db
   website-bzr:
     type: string
     default: ""
     description: describes is the website is on a bzr branch
-  
   bzr-update:
     type: string
     default: ""

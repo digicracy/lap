@@ -9,12 +9,10 @@ description: |
   - /var/webconfig/mysql contains the ip of the latest mysql server to use
   - /var/webconfig/{ip} contains the details to be able to connect to the db
   - /var/webconfig/opendb.php opens a connection to the db
-  - mysql_conf is used to setup the db, either add it to config/ in charm or bzr branch 
-
-  
+  - mysql_conf is used to setup the db, either add it to config/ in charm or bzr branch  
 requires:
- db-admin:
-    interface: mysql-root
+ shared-db:
+    interface: mysql-shared
 provides:
   website:
     interface: http
