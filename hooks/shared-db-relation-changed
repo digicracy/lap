@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 juju-log "lamp - shared-db: Relation CHANGED"
 myuser=`config-get database-user`
 mydatabase=`config-get website-database`
@@ -31,8 +32,8 @@ EOF
 #
 
 #building the database
-juju-log "Building $database database on $host"
-mysql -h $remote_host -u $myuser --password=$password $mydatabase < ./config/mysql_conf
+juju-log "Building $mydatabase database on $remote_host"
+mysql -h $remote_host -u $myuser --password=$password "$mydatabase" < ./config/mysql_conf
 
 #setting up configuration files to be accessible by apache process
 cp ./config/* /var/webconfig

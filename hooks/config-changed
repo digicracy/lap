@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 BZR_BRANCH=`config-get website-bzr`
 BZR_PULL=`config-get bzr-update`
 bzr_config="config/bzr"
@@ -17,12 +18,12 @@ if [ ! -z "$BZR_BRANCH" ] && [ -f "$bzr_config" ]; then
    bzr pull
    cd ..
    cp website/mysql_conf config
-   cp website/* /var/www/ -r
+   cp -r website/* /var/www/
    chown -R www-data:www-data /var/www
   fi 
  else
   #if the bzr set has change we delete the congig file and let the next statement set up the branch
-  juju-log " $bzr_current and $BZR_branch are not the same"
+  juju-log " $bzr_current and $BZR_BRANCH are not the same"
   rm $bzr_config
  fi       
 fi
@@ -34,7 +35,8 @@ if [ ! -z "$BZR_BRANCH" ] && [ ! -f "$bzr_config" ]; then
  rm -r website
  bzr branch $BZR_BRANCH website
  cp website/mysql_conf config
- cp website/* /var/www/ -r
+ rm -r /var/www/*
+ cp -r website/* /var/www/
  chown -R www-data:www-data /var/www
  echo "$BZR_BRANCH" > $bzr_config
  juju-log " adding $BZR_BRANCH to $bzr_config file" 

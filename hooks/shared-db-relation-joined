@@ -5,5 +5,5 @@ juju-log "lamp - shared-db: Relation Joined"
 myuser=`config-get database-user`
 mydatabase=`config-get website-database`
 myaddress=`unit-get private-address`
-relation-set username=$myuser hostname=$myaddress database=$mydatabase
+relation-set username=$myuser hostname=$myaddress database="$mydatabase"
 

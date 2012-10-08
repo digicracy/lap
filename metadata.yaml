@@ -16,5 +16,4 @@ requires:
 provides:
   website:
     interface: http
-  logging:
-      interface: logging-directory
+
