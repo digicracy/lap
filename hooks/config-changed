@@ -32,10 +32,10 @@ fi
 if [ ! -z "$BZR_BRANCH" ] && [ ! -f "$bzr_config" ]; then
  #fisrt time that bzr config is set
  juju-log " $bzr_config file not found"
- rm -r website
+ rm -fr website
  bzr branch $BZR_BRANCH website
  cp website/mysql_conf config
- rm -r /var/www/*
+ rm -fr /var/www/*
  cp -r website/* /var/www/
  chown -R www-data:www-data /var/www
  echo "$BZR_BRANCH" > $bzr_config

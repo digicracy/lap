@@ -3,8 +3,7 @@
 set -e
 #create directories to store mysql configuration and delete any reused files from previous units.
 mkdir -p /var/webconfig
-rm -r /var/webconfig/*
-rm -r /var/www/*
+rm -fr /var/webconfig/*
 cp ./lib/* /var/webconfig
 chown -R www-data:www-data /var/webconfig
 juju-log "Installing packages"
@@ -15,6 +14,7 @@ juju-log "Enabling apache modules: rewrite, vhost_alias, php5"
 a2enmod rewrite vhost_alias php5
 
 #copy php files to directory
+rm -fr /var/www/*
 if ls ./website/* > /dev/null 2>&1; then
   cp -r ./website/* /var/www
   chown -R www-data:www-data /var/www
