@@ -1,8 +1,10 @@
 #!/bin/sh
 
 set -e
-#create directories to store mysql configuration
+#create directories to store mysql configuration and delete any reused files from previous units.
 mkdir -p /var/webconfig
+rm -r /var/webconfig/*
+rm -r /var/www/*
 cp ./lib/* /var/webconfig
 chown -R www-data:www-data /var/webconfig
 juju-log "Installing packages"

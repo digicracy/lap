@@ -15,7 +15,7 @@ if [ -z "$remote_host" ] || [ -z "$password" ]; then
 fi
 
 # Build config file to hold configuration options
-juju-log "Building config file for $host"
+juju-log "Building config file for $remote_host"
 cat > "config/$remote_host" <<EOF
 #!/bin/sh
 
@@ -37,7 +37,6 @@ mysql -h $remote_host -u $myuser --password=$password "$mydatabase" < ./config/m
 
 #setting up configuration files to be accessible by apache process
 cp ./config/* /var/webconfig
-chown -R www-data:www-data ./config
 chown -R www-data:www-data /var/webconfig
 chmod 640 ./config/*
 chmod 640 /var/webconfig/*

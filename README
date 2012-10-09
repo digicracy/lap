@@ -9,6 +9,6 @@ You can set up a relationship with a Mysql service. A Mysql database is created 
 
 juju set lamp website-database="your_db_name"
 
-If you provide a file called mysql_config either on the /website folder or in the root of you Bazaar branch, this will be used to configure further the Mysql database.
+If you provide a file called mysql_config either on the /website folder or in the root of you Bazaar branch, this will be used to configure further the Mysql database. PLease note that this file is called every time a new unit is created. For example, item creation should first check if the table exists.
 
 The charm will store the details of the relationship in /var/webconfig. In there you can also find opendb.php, a basic script that will open the connection to the MySQL database for you.
